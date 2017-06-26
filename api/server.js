@@ -2,6 +2,7 @@ import koa from 'koa';
 import koaRouter from 'koa-router';
 import koaBody from 'koa-bodyparser';
 import { graphiqlKoa, graphqlKoa } from 'graphql-server-koa';
+import schema from './schema';
 
 const PORT = 3000;
 
@@ -11,8 +12,8 @@ const router = new koaRouter();
 app.use(koaBody());
 
 // GraphQL
-router.post('/graphql', graphqlKoa({ schema: null }));
-router.get('/graphql', graphqlKoa({ schema: null }));
+router.post('/graphql', graphqlKoa({ schema: schema }));
+router.get('/graphql', graphqlKoa({ schema: schema }));
 
 router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }));
 
