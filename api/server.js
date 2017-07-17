@@ -3,10 +3,11 @@ import koaRouter from 'koa-router';
 import koaBody from 'koa-bodyparser';
 import { postgraphql } from 'postgraphql';
 
-const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
 const PG_USER = process.env.POSTGRES_USER;
 const PG_PASSWORD = process.env.POSTGRES_PASSWORD;
 const PG_DATABASE = process.env.POSTGRES_DB;
+const PORT = process.env.PORT;
 
 const app = new koa();
 const router = new koaRouter();
@@ -15,8 +16,14 @@ app.use(koaBody());
 
 
 // GraphQL
-app.use(postgraphql(`postgres://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DATABASE}`, 'public', {
-  graphiql: true
+app.use(postgraphql(`postgres://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DATABASE}`, 'klubitus', {
+  exportGqlSchemaPath:  '/opt/api/schema/schema.graphqls',
+  exportJsonSchemaPath: '/opt/api/schema/schema.json',
+  graphiql:             true,
+  jwtPgTypeIdentifier:  'klubitus.jwt_token',
+  jwtSecret:            JWT_SECRET,
+  pgDefaultRole:        'klubitus_guest',
+  watchPg:              true,
 }));
 
 
