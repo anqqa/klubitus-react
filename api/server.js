@@ -3,46 +3,46 @@ import koaRouter from 'koa-router';
 import koaBody from 'koa-bodyparser';
 import { postgraphql } from 'postgraphql';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const PG_USER = process.env.POSTGRES_USER;
+const JWT_SECRET  = process.env.JWT_SECRET;
+const PG_USER     = process.env.POSTGRES_USER;
 const PG_PASSWORD = process.env.POSTGRES_PASSWORD;
 const PG_DATABASE = process.env.POSTGRES_DB;
-const PORT = process.env.PORT;
+const PORT        = process.env.PORT || 3000;
 
-const app = new koa();
+const app    = new koa();
 const router = new koaRouter();
-
-app.use(koaBody());
-
-
-// GraphQL
-app.use(postgraphql(`postgres://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DATABASE}`, 'klubitus', {
-  exportGqlSchemaPath:  '/opt/api/schema/schema.graphqls',
-  exportJsonSchemaPath: '/opt/api/schema/schema.json',
-  graphiql:             true,
-  jwtPgTypeIdentifier:  'klubitus.jwt_token',
-  jwtSecret:            JWT_SECRET,
-  pgDefaultRole:        'klubitus_guest',
-  watchPg:              true,
-}));
 
 
 // Logging
-app.use(async function(ctx, next) {
+app.use(async function(context, next) {
   const start = new Date();
 
   await next();
 
   const ms = new Date() - start;
 
-  console.log(`${ctx.method} ${ctx.url} - ${ms}`);
+  console.log(`${context.method} ${context.url} - ${ms}`);
 });
 
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+// GraphQL
+app.use(postgraphql(`postgres://${PG_USER}:${PG_PASSWORD}@db:5432/${PG_DATABASE}`, ['klubitus', 'klubitus_private'], {
+  exportGqlSchemaPath:  '/opt/api/schema/schema.graphqls',
+  exportJsonSchemaPath: '/opt/api/schema/schema.json',
+  graphiql:             true,
+  jwtPgTypeIdentifier:  'klubitus.jwt_token',
+  jwtSecret:            JWT_SECRET,
+  pgDefaultRole:        'klubitus_guest',
+  //watchPg:              true,
+}));
+
+
+// app.use(koaBody());
+// app.use(router.routes());
+// app.use(router.allowedMethods());
+
 
 app.listen(PORT, () => {
-  console.log('Server is running on', `localhost:${PORT}`);
-  console.log('GraphiQL dashboard', `localhost:${PORT}/graphiql`);
+  console.log('Server is running on', `http://localhost:${PORT}`);
+  console.log('GraphiQL dashboard', `http://localhost:${PORT}/graphiql`);
 });
