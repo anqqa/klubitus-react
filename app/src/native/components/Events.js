@@ -1,34 +1,26 @@
 import React from 'react';
+import { gql, graphql } from 'react-apollo';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { gql, graphql } from 'react-apollo';
+
 
 const query = gql`
-  query getLatestEvents {
-    title
-  }
+  query { allEvents(last: 10) {
+    nodes {
+      id, title
+    }
+  } }
 `;
-
-const EventsWithData = graphql(query, { options: {} })(Events);
-
-
-function Events({ data }) {
-  return (
-    <ScrollView refreshControl={
-      <RefreshControl refreshing={data.networkStatus === 4} onRefresh={data.refetch}/>
-    }>
-      <EventList data={data} />
-    </ScrollView>
-  )
-}
 
 
 function EventList({ data }) {
+  console.log(data);
+
   if (data.error) {
     return <Text>Error! {data.error.message}</Text>
   }
 
-  if (!data.events) {
+  if (!data.allEvents) {
     return <Text>No events found</Text>
   }
 
@@ -36,13 +28,15 @@ function EventList({ data }) {
     <View>
       <Text>Events</Text>
 
-      { data.events.map((item) => {
-        return <Text>Event: {item.title}</Text>;
+      { data.allEvents.nodes.map((item) => {
+        return <Text key={`EVENT-${item.id}`}>Event: {item.title}</Text>;
       })}
     </View>
   )
 }
 
+
+@graphql(query)
 class EventsScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Events',
@@ -53,8 +47,14 @@ class EventsScreen extends React.Component {
   };
 
   render() {
+    const { data } = this.props;
+
     return (
-      <EventsWithData/>
+      <ScrollView refreshControl={
+        <RefreshControl refreshing={data.networkStatus === 4} onRefresh={data.refetch}/>
+      }>
+        <EventList data={data} />
+      </ScrollView>
     )
   }
 }

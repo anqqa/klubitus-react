@@ -3,9 +3,10 @@ import ApolloClient, { createNetworkInterface, ApolloProvider } from 'react-apol
 import { TabBarBottom, TabNavigator } from 'react-navigation';
 
 import Routes from '../config/routes';
+import { GRAPHQL_ENDPOINT } from '../../lib/constants';
 
 const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:8080/graphql'
+  uri: GRAPHQL_ENDPOINT
 });
 
 /*
@@ -33,7 +34,6 @@ const AppNavigator = TabNavigator(Routes, {
 });
 
 
-export default() => <ApolloProvider client={client}>
+export default () => <ApolloProvider client={client}>
   <AppNavigator />
 </ApolloProvider>;
-
