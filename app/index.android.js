@@ -1,4 +1,6 @@
 import { AppRegistry } from 'react-native';
-import App from './src/native/containers';
+
+import App from './build/native/containers';
+
 
 AppRegistry.registerComponent('KlubitusReact', () => App);
