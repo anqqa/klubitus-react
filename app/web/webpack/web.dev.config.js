@@ -21,7 +21,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
+          presets: ['es2015', 'react', 'stage-0'],
           plugins: [
             ['react-transform', {
               transforms: [{
@@ -46,7 +46,8 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
         PLATFORM: JSON.stringify('web')
-      }
+      },
+      __DEV__: true,
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

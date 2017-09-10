@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Root from './containers/root';
+import NavigationAwareView from './containers/navigationawareview';
+import App from './containers/app';
 
 
-ReactDOM.render(<Root />, document.getElementById('app'));
+const ClientApp = NavigationAwareView(App);
+
+ReactDOM.render(<ClientApp />, document.getElementById('app'));

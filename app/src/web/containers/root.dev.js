@@ -1,16 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import ReactKlubitus                   from './app';
+import React from 'react';
 
-export default class Root extends Component {
+import ReactKlubitus from './app';
+
+export default class Root extends React.Component {
   render() {
-    return (
-      <div>
-        <ReactKlubitus />
-      </div>
-    );
+    return <ReactKlubitus />;
   }
 }
-
-Root.propTypes = {
-
-};
