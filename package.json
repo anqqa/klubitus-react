@@ -7,5 +7,8 @@
     "docker:psql": "docker-compose exec db psql -U klubitus klubitus",
     "docker:shell": "docker-compose exec api /bin/sh",
     "docker:upgrade": "docker-compose run --rm --no-deps api yarn upgrade"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.54.1"
   }
 }
