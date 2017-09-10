@@ -1,7 +1,7 @@
-import React      from 'react';
-import { render } from 'react-dom';
-import Root       from './containers/root';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const rootElement = document.getElementById('root');
+import Root from './containers/root';
 
-render(<Root />, rootElement);
+
+ReactDOM.render(<Root />, document.getElementById('app'));
