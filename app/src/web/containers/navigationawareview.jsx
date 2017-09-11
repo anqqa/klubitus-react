@@ -170,7 +170,7 @@ export default (NavigationAwareView) => {
       return (
         <div>
           NavigationAwareView
-          <NavigationAwareView navigation={addNavigationHelpers({ state: this.state, dispatch: this.dispatch })}/>
+          <NavigationAwareView navigation={addNavigationHelpers({ state: this.state, dispatch: this.dispatch })} />
         </div>
       );
     }

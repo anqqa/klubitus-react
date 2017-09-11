@@ -1,12 +1,23 @@
 // @flow
+
 import React from 'react';
 import { addNavigationHelpers } from 'react-navigation';
+import type { NavigationScreenProp, NavigationState } from 'react-navigation/src/TypeDefinition';
 
 import Link from '../components/link';
 
+
 const LinkableLi = Link.Linkable(props => <li {...props} />);
 
-class PageWithSidebar extends React.Component {
+
+type Props = {
+  router: NavigationState,
+  navigation: NavigationScreenProp
+};
+
+class PageWithSidebar extends React.PureComponent<Props> {
+  props: Props;
+
   render() {
     const { router, navigation: { dispatch, state } } = this.props;
 
@@ -22,7 +33,9 @@ class PageWithSidebar extends React.Component {
             const options         = router.getScreenOptions(childNavigation, {});
 
             return (
-              <LinkableLi key={index} to={route.routeName} className={isActive ? 'active' : ''}>
+              <LinkableLi className={isActive ? 'active' : ''}
+                          key={`LINK-${route.routeName.toUpperCase()}`}
+                          to={route.routeName}>
                 {options.linkName || 'Link'}
               </LinkableLi>
             );

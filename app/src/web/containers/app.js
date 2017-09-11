@@ -95,4 +95,3 @@ const App = createNavigator(
 )(PageWithSidebar);
 
 export default App;
-

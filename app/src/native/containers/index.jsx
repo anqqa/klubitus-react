@@ -5,6 +5,7 @@ import { TabBarBottom, TabNavigator } from 'react-navigation';
 import Routes from '../config/routes';
 import { GRAPHQL_ENDPOINT } from '../../lib/constants';
 
+
 const networkInterface = createNetworkInterface({
   uri: GRAPHQL_ENDPOINT
 });
