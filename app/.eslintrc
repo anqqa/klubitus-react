@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype"
+  ],
+  "rules": {
+    "arrow-body-style": ["error", "always"],
+    "brace-style": ["error", "stroustrup"],
+    "key-spacing": ["error", { "align": "value", "mode": "minimum" }],
+    "max-len": ["error", 120],
+    "no-console": "warn",
+    "no-multi-spaces": ["error", { "exceptions": { "VariableDeclarator": true } }],
+    "padded-blocks": ["off"]
+  }
+}

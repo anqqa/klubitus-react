@@ -27,7 +27,7 @@ function getAction(router, path: string, params?: NavigationParams) {
 }
 
 
-export default NavigationAwareView => {
+export default (NavigationAwareView) => {
   const initialAction = getAction(NavigationAwareView.router, window.location.pathname.substr(1));
   const initialState  = NavigationAwareView.router.getStateForAction(initialAction);
 
@@ -48,14 +48,29 @@ export default NavigationAwareView => {
 
 
   class NavigationContainer extends React.Component {
+    static childContextTypes = {
+      dispatch:                  PropTypes.func.isRequired,
+      getActionForPathAndParams: PropTypes.func.isRequired,
+      getURIForAction:           PropTypes.func.isRequired,
+    };
+
     state = initialState;
+
+
+    getChildContext() {
+      return {
+        dispatch:                  this.dispatch,
+        getActionForPathAndParams: this.getActionForPathAndParams,
+        getURIForAction:           this.getURIForAction,
+      };
+    }
 
 
     componentDidMount() {
       setDocumentTitle(this.state.routes[this.state.index], this.dispatch);
 
       // Handle browser back button
-      window.onpopstate = event => {
+      window.onpopstate = (event) => {
         event.preventDefault();
 
         const action = getAction(NavigationAwareView.router, window.location.pathname.substr(1));
@@ -64,18 +79,6 @@ export default NavigationAwareView => {
           this.dispatch(action);
         }
       };
-    }
-
-
-    componentDidUpdate() {
-
-      // Scroll to element id
-      const { params } = NavigationAwareView.router.getPathAndParamsForState(this.state);
-
-      if (params && params.hash) {
-        document.getElementById(params.hash).scrollIntoView();
-      }
-
     }
 
 
@@ -94,7 +97,45 @@ export default NavigationAwareView => {
     }
 
 
-    dispatch = action => {
+    componentDidUpdate() {
+
+      // Scroll to element id
+      const { params } = NavigationAwareView.router.getPathAndParamsForState(this.state);
+
+      if (params && params.hash) {
+        document.getElementById(params.hash).scrollIntoView();
+      }
+
+    }
+
+
+    /**
+     * Maps URI to Action.
+     *
+     * @param   {string}            path
+     * @param   {NavigationParams}  [params]
+     * @return  {Action|undefined}
+     */
+    getActionForPathAndParams = (path: string, params?: NavigationParams) => {
+      return NavigationAwareView.router.getActionForPathAndParams(path, params);
+    };
+
+
+    /**
+     * Maps Action to URI.
+     *
+     * @param   {Action}  action
+     * @return  {string}
+     */
+    getURIForAction = (action) => {
+      const state    = NavigationAwareView.router.getStateForAction(action, this.state) || this.state;
+      const { path } = NavigationAwareView.router.getPathAndParamsForState(state);
+
+      return `/${path}`;
+    };
+
+
+    dispatch = (action) => {
       const state = NavigationAwareView.router.getStateForAction(action, this.state);
 
       if (!state) {
@@ -122,47 +163,6 @@ export default NavigationAwareView => {
       }
 
       return false;
-    };
-
-
-    /**
-     * Maps URI to Action.
-     *
-     * @param   {string}            path
-     * @param   {NavigationParams}  [params]
-     * @return  {Action|undefined}
-     */
-    getActionForPathAndParams = (path: string, params?: NavigationParams) => {
-      return NavigationAwareView.router.getActionForPathAndParams(path, params);
-    };
-
-
-    static childContextTypes = {
-      dispatch:                  PropTypes.func.isRequired,
-      getActionForPathAndParams: PropTypes.func.isRequired,
-      getURIForAction:           PropTypes.func.isRequired,
-    };
-
-    getChildContext() {
-      return {
-        dispatch:                  this.dispatch,
-        getActionForPathAndParams: this.getActionForPathAndParams,
-        getURIForAction:           this.getURIForAction,
-      }
-    }
-
-
-    /**
-     * Maps Action to URI.
-     *
-     * @param   {Action}  action
-     * @return  {string}
-     */
-    getURIForAction = action => {
-      const state    = NavigationAwareView.router.getStateForAction(action, this.state) || this.state;
-      const { path } = NavigationAwareView.router.getPathAndParamsForState(state);
-
-      return `/${path}`;
     };
 
 
