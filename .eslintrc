@@ -14,6 +14,7 @@
     "arrow-body-style": ["off"],
     "brace-style": ["error", "stroustrup"],
     "indent": ["off"],
+    "jsx-a11y/href-no-hash": "off",
     "key-spacing": ["error", { "align": "value", "mode": "minimum" }],
     "max-len": ["error", 120],
     "no-console": "warn",
