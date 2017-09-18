@@ -10,7 +10,7 @@
     "lint": "eslint src",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "watch": "yarn run build -- --watch",
+    "watch": "yarn run build --watch",
     "web-bundle": "node node_modules/webpack/bin/webpack --config web/webpack/web.prod.config.js --progress --colors",
     "web-dev": "node node_modules/webpack-dev-server/bin/webpack-dev-server --content-base web/public/ --config web/webpack/web.dev.config.js --port 3001 --inline --hot --colors"
   },
