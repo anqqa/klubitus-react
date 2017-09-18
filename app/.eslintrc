@@ -20,6 +20,7 @@
     "no-multi-spaces": ["error", { "exceptions": { "VariableDeclarator": true } }],
     "padded-blocks": ["off"],
     "react/jsx-closing-bracket-location": ["error", "after-props"],
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
     "react/jsx-first-prop-new-line": ["off"],
     "react/jsx-indent-props": ["off"]
   }

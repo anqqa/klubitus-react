@@ -1,17 +1,18 @@
-import EventsScreen from "../components/Events";
-import ForumScreen from "../components/Forum";
+import EventsScreen from '../components/events';
+import ForumScreen from '../components/forum';
 
 
 const Routes = {
   Events: {
-    path: 'events',
-    screen: EventsScreen
+    path:   'events',
+    screen: EventsScreen,
   },
   Forum: {
-    path: 'forum',
-    screen: ForumScreen
+    path:   'forum',
+    screen: ForumScreen,
   },
-/*  Galleries: {
+/*
+  Galleries: {
     path: 'galleries',
     screen: ForumScreen
   },
@@ -22,7 +23,8 @@ const Routes = {
   More: {
     path: 'more',
     screen: ForumScreen
-  },*/
+  },
+  */
 };
 
 

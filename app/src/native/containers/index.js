@@ -7,7 +7,7 @@ import { GRAPHQL_ENDPOINT } from '../../lib/constants';
 
 
 const networkInterface = createNetworkInterface({
-  uri: GRAPHQL_ENDPOINT
+  uri: GRAPHQL_ENDPOINT,
 });
 
 /*
@@ -28,13 +28,15 @@ const client = new ApolloClient({
 
 const AppNavigator = TabNavigator(Routes, {
   navigationOptions: {
-    initialRouteName: 'Events'
+    initialRouteName: 'Events',
   },
   tabBarComponent: TabBarBottom,
-  tabBarPosition: 'bottom'
+  tabBarPosition:  'bottom',
 });
 
 
-export default () => <ApolloProvider client={client}>
-  <AppNavigator />
-</ApolloProvider>;
+export default () => (
+  <ApolloProvider client={client}>
+    <AppNavigator />
+  </ApolloProvider>
+);
