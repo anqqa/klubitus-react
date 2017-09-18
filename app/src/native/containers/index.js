@@ -1,42 +1,25 @@
-import React from 'react';
-import ApolloClient, { createNetworkInterface, ApolloProvider } from 'react-apollo';
 import { TabBarBottom, TabNavigator } from 'react-navigation';
 
+import Apollo from '../../lib/apollo';
+import { Color } from '../../lib/constants';
+
 import Routes from '../config/routes';
-import { GRAPHQL_ENDPOINT } from '../../lib/constants';
 
-
-const networkInterface = createNetworkInterface({
-  uri: GRAPHQL_ENDPOINT,
-});
-
-/*
-networkInterface.use([{
-  applyMiddleware(req, next) {
-    if (!req.options.headers) {
-      req.options.headers = {};
-    }
-
-    next();
-  }
-}]);
-*/
-
-const client = new ApolloClient({
-  networkInterface,
-});
 
 const AppNavigator = TabNavigator(Routes, {
   navigationOptions: {
     initialRouteName: 'Events',
   },
   tabBarComponent: TabBarBottom,
+  tabBarOptions:   {
+    activeTintColor:   Color.TEXT,
+    inactiveTintColor: Color.TEXT_DARK,
+    style:             {
+      backgroundColor: Color.BACKGROUND_LIGHT,
+    },
+  },
   tabBarPosition:  'bottom',
 });
 
 
-export default () => (
-  <ApolloProvider client={client}>
-    <AppNavigator />
-  </ApolloProvider>
-);
+export default Apollo(AppNavigator);

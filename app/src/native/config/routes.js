@@ -1,4 +1,4 @@
-import EventsScreen from '../components/events';
+import EventsScreen from '../events';
 import ForumScreen from '../components/forum';
 
 
